@@ -55,7 +55,7 @@ with sqlite3.connect('static/bdd.db') as conn :
     c.execute("""INSERT INTO 'user'('id','login','password','level','LastConn') 
 VALUES (NULL,'admin','1234',0,'2020-04-18');
 """)
-    
+
     for t in addAllTechs('static') :
         c.execute(t)
 
