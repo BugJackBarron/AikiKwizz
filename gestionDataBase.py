@@ -5,7 +5,7 @@ def addOneTechs(CompleteFileName) :
     s,level,filename=CompleteFileName.split("\\")
     name=filename.split(".")[0].replace("_"," ")
     video=filename
-    sound=name+".mp3"
+    sound=filename.replace(".mp4",".mp3")
     keywords=name.replace("_"," ")
     level=int(level[0])
     request=f"""INSERT INTO 'techs' ('name', 'video', 'sound', 'keywords', 'level')
