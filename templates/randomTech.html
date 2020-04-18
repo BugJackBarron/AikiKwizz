@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>{{ name }}</title>
+    <link href="{{url_for('static',filename='styleTechs.css')}}" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
-$END$
+<h2>{{ name }}</h2>
+
+    <audio controls autoplay="True" preload="auto" src="{{sound}}"  type="audio/mpeg">
+        Your browser does not support the <code>audio</code> element.
+    </audio>
+
+<input class="showvid"
+       type="button"
+       value="Voir la Vidéo" >
+<div id="Solution">
+ <video
+            controls
+        src="{{video}}" >
+            Your browser does not support the
+            <code>audio</code> element.
+    </video>
+<form>
+    <input type="radio" id="inconnue" name="choix" value="inconnue">
+    <label for="inconnue">Je ne la connais pas.</label>
+    <input type="radio" id="malconnue" name="choix" value="malconnue" >
+    <label for="malconnue">Je la connais mal.</label>
+    <input type="radio" id="connue" name="choix" value="connue" >
+    <label for="connue">Je la connais .</label>
+    <input type="radio" id="bienconnue" name="choix" value="bienconnue" >
+    <label for="bienconnue">Je la connais bien.</label>
+</form>
+</div>
 </body>
+<script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script>
+    $(".showvid").click(function() {
+        $("#Solution").show();
+        console.log("toto");
+        }
+
+    )
+
+
+</script>
 </html>
