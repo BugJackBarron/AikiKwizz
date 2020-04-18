@@ -1,0 +1,7 @@
+#Ignore les fichiers liés au venv
+__pycache_
+_
+Include
+Lib
+Scripts
+pyvenv.cfg
