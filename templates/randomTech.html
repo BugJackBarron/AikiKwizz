@@ -1,28 +1,18 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ name }}</title>
-    <link href="{{url_for('static',filename='styleTechs.css')}}" rel="stylesheet" type="text/css" />
-
-</head>
-<body>
-<h2>{{ name }}</h2>
+{% extends "squelette.html" %}
+{% block titre %}{{ level }} Kyu :{{ name }} {% endblock %}
+{% block corps %}
+<h2>{{ level }} Kyu :{{ name }} </h2>
 
     <audio controls autoplay="True" preload="auto" src="{{sound}}"  type="audio/mpeg">
         Your browser does not support the <code>audio</code> element.
     </audio>
 
-<input class="showvid"
+<input class="bouton"
+       id="showvid"
        type="button"
        value="Voir la Vidéo" >
 <div id="Solution">
- <video
-            controls
-        src="{{video}}" >
-            Your browser does not support the
-            <code>audio</code> element.
-    </video>
+ <video id="videotechs" controls src="{{video}}" >  </video>
 <form>
     <input type="radio" id="inconnue" name="choix" value="inconnue">
     <label for="inconnue">Je ne la connais pas.</label>
@@ -32,18 +22,23 @@
     <label for="connue">Je la connais .</label>
     <input type="radio" id="bienconnue" name="choix" value="bienconnue" >
     <label for="bienconnue">Je la connais bien.</label>
+    <input type="bouton" id="suivant" name="suivant" value="Technique suivante">
 </form>
-</div>
-</body>
+
+
+    </div>
 <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script>
-    $(".showvid").click(function() {
+    $("#showvid").click(function() {
         $("#Solution").show();
         console.log("toto");
-        }
+        $("#videotechs").attr({autoplay:true});
+        });
+    $('#suivant').on('click',function() {
+        location.reload();
+    });
 
-    )
 
 
 </script>
-</html>
+{% endblock %}

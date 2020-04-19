@@ -29,31 +29,36 @@ def addAllTechs(basefolder) :
 
 with sqlite3.connect('static/bdd.db') as conn :
     c=conn.cursor()
-    c.execute("DROP TABLE 'user'")
+    c.execute("DROP TABLE IF EXISTS  'user';")
     c.execute("""CREATE TABLE 'user' 
     ('id' INTEGER PRIMARY KEY AUTOINCREMENT,
  'login' TEXT NOT NULL,
  'password' TEXT,
- 'AlmostUnknownTechs' TEXT,
- 'AlmostKnownTechcs' TEXT,
- 'WellKnownTechs' TEXT,
  'level' INTEGER NOT NULL,
- 'LastConn' DATE NOT NULL,
- 'Last10Techs' TEXT);
+ 'lastconn' TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+ 'last10techs' TEXT);
     """)
-    c.execute("DROP TABLE 'techs'")
+    c.execute("DROP TABLE IF EXISTS  'techs';")
     c.execute("""CREATE TABLE 'techs' 
 ('id' INTEGER PRIMARY KEY AUTOINCREMENT,
  'name' TEXT NOT NULL,
  'video' TEXT,
  'sound' TEXT,
  'keywords' TEXT,
- 'level' TEXT)
+ 'level' INTEGER)
  ;
 """)
+    c.execute("DROP TABLE IF EXISTS  'memorycard';")
+    c.execute("""CREATE TABLE 'memorycard'
+    ('id_user' INTEGER REFERENCES user(id),
+    'id_tech' INTEGER REFERENCES techs(id),
+    'memorylevel' INTEGER DEFAULT 0,
+    'lastseen' DATE DEFAULT CURRENT_TIMESTAMP 
+    );
+    """)
 
-    c.execute("""INSERT INTO 'user'('id','login','password','level','LastConn') 
-VALUES (NULL,'admin','1234',0,'2020-04-18');
+    c.execute("""INSERT INTO 'user'('id','login','password','level') 
+VALUES (NULL,'admin','1234',0);
 """)
 
     for t in addAllTechs('static') :

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {%  block header %}
+    <meta charset="UTF-8">
+        <title>{% block titre %}AikiKwizz{%  endblock %}</title>
+    <link href="{{url_for('static',filename='styleTechs.css')}}" rel="stylesheet" type="text/css" />
+    {% endblock %}
+</head>
+<body>
+    {% block head %}
+        <h1 id="banniere"><a href="{{ url_for('index')}}">AikiKwizz</a></h1>
+        <span id=""message">
+        {% if session['login'] is defined %}
+        <p> Connecté sous le nom {{ session['login'] }}</p>
+        </span>
+        {% else %}
+        <p> Non connecté </p>
+        {% endif %}
+        <span id ="connected">
+        {% if session['login'] is defined %}
+            <a href="{{ url_for('logout')}}">Déconnexion</a>
+        </span>
+        {% else %}
+        <a href="{{ url_for('login')}}">Connexion</a> <a href="{{ url_for('register')}}">Inscription</a>
+        {% endif %}
+        </span>
+
+    {% endblock %}
+
+    {% block navbar %}{% endblock %}
+    {% block corps %}{% endblock %}
+    {% block footer %}{% endblock %}
+</body>
+</html>

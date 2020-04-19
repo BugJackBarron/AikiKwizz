@@ -1,0 +1,23 @@
+{% extends "squelette.html" %}
+{% block corps %}
+<form action="" method="POST">
+        <label for="login">Login :</label>
+        <input type="text" id="login" name="login" size="10" required />
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" size="10" required />
+        <label for="password">Vérification du mot de passe :</label>
+        <input type="password" id="verifpassword" name="verifpassword" size="10" required />
+        <label for="grade">Grade actuel</label>
+        <SELECT name="grade" id="grade" required>
+            <OPTION selected value=6>Aucun</OPTION>
+            <OPTION value=5>5ème Kyu</OPTION>
+            <OPTION value=4>4ème Kyu</OPTION>
+            <OPTION value=3>3ème Kyu</OPTION>
+            <OPTION value=2>2ème Kyu</OPTION>
+            <OPTION value=1>1er Kyu</OPTION>
+            <OPTION value=0>Grade Dan</OPTION>
+        </SELECT>
+
+        <input type="submit" value="Inscription"/>
+    </form>
+{% endblock %}
