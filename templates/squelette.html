@@ -11,14 +11,14 @@
     {% block head %}
         <h1 id="banniere"><a href="{{ url_for('index')}}">AikiKwizz</a></h1>
         <span id=""message">
-        {% if session['login'] is defined %}
-        <p> Connecté sous le nom {{ session['login'] }}</p>
+        {% if current_user.is_authenticated %}
+        <p> Connecté sous le nom {{ current_user.login }}</p>
         </span>
         {% else %}
         <p> Non connecté </p>
         {% endif %}
         <span id ="connected">
-        {% if session['login'] is defined %}
+        {% if current_user.is_authenticated %}
             <a href="{{ url_for('logout')}}">Déconnexion</a>
         </span>
         {% else %}

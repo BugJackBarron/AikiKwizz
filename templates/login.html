@@ -1,12 +1,16 @@
 {% extends 'squelette.html'%}
 
 {% block corps %}
-    <p>{{ session['error_message'] }}</p>
-    <form action="" method="POST">
-        <label for="login">Login :</label>
-        <input type="text" id="login" name="login" size="10" required />
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" size="10" required />
+        <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.login.label }}<br>
+            {{ form.login(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
         <input type="submit" value="Connecter"/>
     </form>
 {% endblock %}
