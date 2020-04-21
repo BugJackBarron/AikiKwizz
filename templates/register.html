@@ -1,23 +1,33 @@
 {% extends "squelette.html" %}
 {% block corps %}
 <form action="" method="POST">
-        <label for="login">Login :</label>
-        <input type="text" id="login" name="login" size="10" required />
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" size="10" required />
-        <label for="password">Vérification du mot de passe :</label>
-        <input type="password" id="verifpassword" name="verifpassword" size="10" required />
-        <label for="grade">Grade actuel</label>
-        <SELECT name="grade" id="grade" required>
-            <OPTION selected value=6>Aucun</OPTION>
-            <OPTION value=5>5ème Kyu</OPTION>
-            <OPTION value=4>4ème Kyu</OPTION>
-            <OPTION value=3>3ème Kyu</OPTION>
-            <OPTION value=2>2ème Kyu</OPTION>
-            <OPTION value=1>1er Kyu</OPTION>
-            <OPTION value=0>Grade Dan</OPTION>
-        </SELECT>
+       {{ form.hidden_tag() }}
+        <p>
+            {{ form.login.label }}<br>
+            {{ form.login(size=32) }}
+            {% if form.login.errors %}
+                <ul class="errors">{% for error in form.login.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            {% if form.password.errors %}
+                <ul class="errors">{% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+        </p>
+        <p>
+            {{ form.check_password.label }}<br>
+            {{ form.check_password(size=32) }}
+            {% if form.check_password.errors %}
+                <ul class="errors">{% for error in form.check_password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+        </p>
+        <p>
+            {{ form.level.label }}<br>
+            {{ form.level(size=1) }}
 
+        </p>
         <input type="submit" value="Inscription"/>
     </form>
 {% endblock %}

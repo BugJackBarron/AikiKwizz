@@ -2,7 +2,7 @@
 
 {% block corps %}
         <form action="" method="POST">
-        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
         <p>
             {{ form.login.label }}<br>
             {{ form.login(size=32) }}

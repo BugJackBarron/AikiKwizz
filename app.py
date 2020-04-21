@@ -2,8 +2,8 @@ from flask import Flask,render_template,url_for,request,session,redirect,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_login import LoginManager,UserMixin,login_user,login_required,current_user,logout_user
-from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, length
+from wtforms import StringField, PasswordField, SubmitField, SelectField,widgets
+from wtforms.validators import DataRequired, length, InputRequired, EqualTo
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 import datetime
@@ -13,16 +13,17 @@ from werkzeug import security
 import os, sqlite3
 from random import choice
 
+###      CONFIGURATION DE L'APP     ###
 app = Flask(__name__)
 app.config['SECRET_KEY']="cesttressecret"
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///static/bddsqlalchemy.sqlite3'
-
+###________CONFIGURATION DES MODULES_____________###
 db=SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-
+###_________________CLASSES DES TABLES POUR SQLALCHEMY________________________________###
 class User(UserMixin, db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(40), unique=True, nullable=False)
@@ -46,8 +47,7 @@ class Memory(db.Model) :
     seen_last = db.Column(db.DateTime,default=datetime.datetime.fromisoformat('2020-01-01'),nullable=False)
 
 
-class MemoryView(ModelView):#nécessaire pour avoir la vue des clés primaires
-    form_columns = ['id_user', 'id_tech', 'memory_level', 'seen_last']
+
 
 
 class Tech(db.Model) :
@@ -58,20 +58,39 @@ class Tech(db.Model) :
     keywords = db.Column(db.Text)
     level = db.Column(db.Integer, nullable=False)
 
+###________________FORMULAIRES WTFORMS______________________________###
+
 
 class LoginForm(FlaskForm):
     login = StringField('Login', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
+class RegisterForm(FlaskForm):
+    login = StringField('Choisissez un login', validators=[InputRequired(message='Champ requis')])
+    password = PasswordField('Choisissez un mot de passe', validators=[InputRequired(message='Champ requis'),length(min = 2 ,max=80,message="Le mote de passe doit avoir une longueur comprise entre 8 et 80 caractères.")])
+    check_password = PasswordField('Choisissez un mot de passe', validators=[InputRequired(message='Champ requis'),EqualTo('password',message = 'Les mots de passe ne coincident pas !')])
+    level = SelectField('Votre grade actuel', choices=[ ('6','Aucun'),
+                                                        ('5', '5ème Kyu'),
+                                                        ('4', '4ème Kyu'),
+                                                        ('3', '3ème Kyu'),
+                                                        ('2', '2ème Kyu'),
+                                                        ('1', '1er Kyu'),
+                                                        ('0', "Grade Dan")],
+                        default = 6)
+
+
+
+###____________________MODIFICATIONS DES VUES DE L'ADMIN POUR Flask-Admin_______________________###
+
+class MemoryView(ModelView):#nécessaire pour avoir la vue des clés primaires
+    form_columns = ['id_user', 'id_tech', 'memory_level', 'seen_last']
 
 class MyAdminIndexView(AdminIndexView):
 
     def is_accessible(self):
         if current_user.is_authenticated :
-            print('auth')
             return current_user.login == 'admin'
         else :
-            print('pasauth')
             return False
     
     def inaccessible_callback(self, name, **kwargs):
@@ -83,11 +102,13 @@ admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Tech, db.session))
 admin.add_view(MemoryView(Memory, db.session))
 
-
+###__________________LOGIN MANAGER POUR Flask-Login____________________________###
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+###______________________VUES_________________________###
 
 @app.route('/')
 def index():
@@ -102,25 +123,65 @@ def login():
         if user :
             if security.check_password_hash(user.password, form.password.data ) :
                 login_user(user)
-                return redirect(url_for('myprofile'))
+                if current_user.login=="admin" :
+                    return redirect(url_for('admin.index'))
+                else :
+                    return redirect(url_for('myprofile'))
     return render_template("login.html",form=form)
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
-@app.route('/register')
-@login_required
+@app.route('/register',methods=['GET','POST'])
 def register():
-    return render_template("squelette.html")
+    form = RegisterForm()
+    print(f"Etat {form.validate_on_submit()}")
+    print(form.errors)
+    if form.validate_on_submit() :
+        user = User.query.filter_by(login=form.login.data).first()
+        print("toto")
+        if user is None:
+            print("toto2")
+            user = User(login=form.login.data,
+                        password=security.generate_password_hash(form.password.data, method='sha256'),
+                        level=int(form.level.data))
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('login'))
+        else :
+            #flash(u'Ce login est déjà pris !')
+            form.login.errors.append('Ce pseudo est déjà pris !')
+    return render_template("register.html",form=form)
+
 
 @app.route('/myprofile')
 @login_required
 def myprofile():
     return f'{current_user.login} is {current_user.level} Kyu'
+
+
+@app.route('/addtech')
+@login_required
+def addtech() :
+    pass
+
+
+@app.route('/gettech')
+@app.route('/gettech/<int:techid>')
+@login_required
+def gettech(techid=0) :
+    pass
+
+
+@app.route('/change_password')
+@login_required
+def change_password() :
+    pass
 
 
 if __name__ == '__main__':
