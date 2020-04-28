@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <h1>Bienvenue {{ current_user.login}} !</h1>
+    <ul>
+        <li> <a href="{{ url_for('addtech') }}">Ajouter une technique</a> </li>
+        <li> <a href="{{ url_for('gettech') }}">Modifier une technique</a> </li>
+        <li> <a href="{{ url_for('change_password') }}">Modifier un mot de pasee utilisateur</a> </li>
+        <li> <a href="{{ url_for('logout') }}">Déconnexion</a> </li>
+
+
+    </ul>
+{% endblock %}

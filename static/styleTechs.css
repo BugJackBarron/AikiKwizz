@@ -1,7 +1,20 @@
-body{
-    background-color: black;
-    color : #30799B;
+.w3-red:hover{
+    background-color : #303e45!important ;
+    color : red!important ;
+
 }
-#Solution{
-    display:none;
+.w3-yellow:hover{
+    background-color : #303e45!important ;
+    color : yellow!important ;
+
+}
+.w3-green:hover{
+    background-color : #303e45!important ;
+    color : green!important ;
+
+}
+.w3-blue:hover{
+    background-color : #303e45!important ;
+    color : blue!important ;
+
 }

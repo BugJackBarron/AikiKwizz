@@ -1,6 +1,12 @@
 {% extends "squelette.html" %}
-{% block corps %}
+{% block contenu %}
+
+
 <form action="" method="POST">
+<div class="w3-container w3-theme-d5 w3-center">
+  <h2>Inscription</h2>
+</div>
+<div class="w3-center">
        {{ form.hidden_tag() }}
         <p>
             {{ form.login.label }}<br>
@@ -28,6 +34,7 @@
             {{ form.level(size=1) }}
 
         </p>
-        <input type="submit" value="Inscription"/>
+        <input class="w3-button w3-theme-d4" type="submit" value="Inscription"/>
+</div>
     </form>
 {% endblock %}

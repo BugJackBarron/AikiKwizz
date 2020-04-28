@@ -35,8 +35,6 @@ db.create_all()
 
 user=User(login='admin',password=security.generate_password_hash('1234',method='sha256'),level=0)
 db.session.add(user)
-user=User(login='fabien',password=security.generate_password_hash('toto',method='sha256'),level=1)
-db.session.add(user)
 
 
 for t in addAllTechs('static'):

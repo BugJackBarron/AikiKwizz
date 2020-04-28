@@ -2,7 +2,7 @@ from flask import Flask,render_template,url_for,request,session,redirect,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_login import LoginManager,UserMixin,login_user,login_required,current_user,logout_user
-from wtforms import StringField, PasswordField, SubmitField, SelectField,widgets
+from wtforms import StringField, PasswordField, SubmitField, SelectField,widgets, HiddenField
 from wtforms.validators import DataRequired, length, InputRequired, EqualTo
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
@@ -68,7 +68,7 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     login = StringField('Choisissez un login', validators=[InputRequired(message='Champ requis')])
     password = PasswordField('Choisissez un mot de passe', validators=[InputRequired(message='Champ requis'),length(min = 2 ,max=80,message="Le mote de passe doit avoir une longueur comprise entre 8 et 80 caractères.")])
-    check_password = PasswordField('Choisissez un mot de passe', validators=[InputRequired(message='Champ requis'),EqualTo('password',message = 'Les mots de passe ne coincident pas !')])
+    check_password = PasswordField('Vérification du mot de passe', validators=[InputRequired(message='Champ requis'),EqualTo('password',message = 'Les mots de passe ne coincident pas !')])
     level = SelectField('Votre grade actuel', choices=[ ('6','Aucun'),
                                                         ('5', '5ème Kyu'),
                                                         ('4', '4ème Kyu'),
@@ -78,6 +78,11 @@ class RegisterForm(FlaskForm):
                                                         ('0', "Grade Dan")],
                         default = 6)
 
+class ValidTechNotConnected(FlaskForm):
+    notmemorized = SubmitField('A revoir')
+    averagememorized = SubmitField('Connue')
+    technumber= HiddenField('techNumber')
+    deck = HiddenField('deck')
 
 
 ###____________________MODIFICATIONS DES VUES DE L'ADMIN POUR Flask-Admin_______________________###
@@ -112,7 +117,7 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template("squelette.html")
+    return render_template("index.html")
 
 
 @app.route('/login',methods=['GET','POST'])
@@ -127,6 +132,7 @@ def login():
                     return redirect(url_for('admin.index'))
                 else :
                     return redirect(url_for('myprofile'))
+            flash(u'La combinaison login/mot de passe est inconnue!')
     return render_template("login.html",form=form)
 
 
@@ -151,10 +157,15 @@ def register():
                         password=security.generate_password_hash(form.password.data, method='sha256'),
                         level=int(form.level.data))
             db.session.add(user)
+            newuser=User.query.filter_by(login=form.login.data).first()
+            techs=Tech.query.all()
+            for response in techs :
+                memory=Memory(id_user=newuser.id,id_tech=response.id,memory_level=0)
+                db.session.add(memory)
             db.session.commit()
             return redirect(url_for('login'))
         else :
-            #flash(u'Ce login est déjà pris !')
+            flash(u'Il y a un problème avec l\'inscription !')
             form.login.errors.append('Ce pseudo est déjà pris !')
     return render_template("register.html",form=form)
 
@@ -182,6 +193,62 @@ def gettech(techid=0) :
 @login_required
 def change_password() :
     pass
+
+
+@app.route('/quizz')
+@app.route('/quizz/<int:level>')
+def make_quizz(**kwargs) :
+    if current_user.is_anonymous :
+        if 'level' in kwargs.keys():
+            session['deck'] = make_deck(kyu=[kwargs['level']])
+            return redirect(url_for('unregistered_quizz'))
+        else :
+            return redirect(url_for('index'))
+    else :
+        return redirect(url_for('myprofile'))
+
+
+
+@app.route("/unregistered_quizz/",methods=['GET','POST'])
+def unregistered_quizz():
+    form = ValidTechNotConnected()
+    deck=session.get('deck',None)
+    if form.validate_on_submit() :
+        deck = [int(t) for t in deck]
+        if len(deck)==0 :
+            return "a plus"
+        if form.averagememorized.data :
+              if deck :
+                deck.remove(session['tirage'])
+                session['memorized']+=1
+        tirage = choice(deck)
+        tech = Tech.query.filter_by(id=tirage).first()
+        return render_template('randomTech.html',tech=tech, form=form)
+
+    else :
+        session['memorized']=0
+        print(f"Deck : {deck}")
+        tirage=choice(deck)
+        print(f"Tirage : {tirage} Type : {type(tirage)}")
+        session['tirage']=tirage
+        tech=Tech.query.filter_by(id = tirage).first()
+        print(f"Requete :{tech}")
+        print(f"nom : {tech.name}")
+        return render_template('randomTech.html',tech=tech,form=form)
+
+
+def make_deck(**kwargs) :
+    current_deck=set()
+    if 'kyu' in kwargs.keys() :
+        for level in kwargs['kyu'] :
+            if current_user.is_authenticated :
+                ### A modifier pour prendre en compte la validité de la carte
+                cards = Tech.query.filter_by(level=level, ).all()
+            else :
+                cards = Tech.query.filter_by(level=level).all()
+            for card in cards :
+                current_deck.add(card.id)
+    return list(current_deck)
 
 
 if __name__ == '__main__':

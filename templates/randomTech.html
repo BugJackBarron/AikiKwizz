@@ -1,44 +1,43 @@
 {% extends "squelette.html" %}
-{% block titre %}{{ level }} Kyu :{{ name }} {% endblock %}
-{% block corps %}
-<h2>{{ level }} Kyu :{{ name }} </h2>
-
-    <audio controls autoplay="True" preload="auto" src="{{sound}}"  type="audio/mpeg">
+{% block titre %}Kyu {{ tech.level }} :{{ tech.name }} {% endblock %}
+{% block contenu %}
+<h2 class="w3-center">{{ tech.level }} Kyu :{{ tech.name }} </h2>
+<div class=""center>
+<div class="w3-center ">
+    <span class="w3-bar-item w3-red"   style="width:50%;text-shadow:1px 1px 0 #444"> Techniques à voir : {{ session.deck|length-session.memorized }}</span>
+    <span class="w3-bar-item w3-green" style="width:50%;text-shadow:1px 1px 0 #444"> Techniques connues : {{ session.memorized }}</span>
+</div>
+</div>
+<div class="w3-center">
+    <audio controls autoplay="True" preload="auto" src="{{url_for('static',filename = tech.level|string+'Kyu/'+tech.sound)}}"  type="audio/mpeg">
         Your browser does not support the <code>audio</code> element.
     </audio>
+</div>
+<div
+<div class="w3-center">
+<input class="w3-button w3-theme-d4" value="Voir la Vidéo" onclick="Solution()"/>
+</div>
 
-<input class="bouton"
-       id="showvid"
-       type="button"
-       value="Voir la Vidéo" >
-<div id="Solution">
- <video id="videotechs" controls src="{{video}}" >  </video>
-<form>
-    <input type="radio" id="inconnue" name="choix" value="inconnue">
-    <label for="inconnue">Je ne la connais pas.</label>
-    <input type="radio" id="malconnue" name="choix" value="malconnue" >
-    <label for="malconnue">Je la connais mal.</label>
-    <input type="radio" id="connue" name="choix" value="connue" >
-    <label for="connue">Je la connais .</label>
-    <input type="radio" id="bienconnue" name="choix" value="bienconnue" >
-    <label for="bienconnue">Je la connais bien.</label>
-    <input type="bouton" id="suivant" name="suivant" value="Technique suivante">
-</form>
+<div class="w3-hide" id="SolVideo" >
+    <video id="videotechs" controls src="{{url_for("static",filename = tech.level|string+'Kyu/'+tech.video)}}" >  </video>
+</div>
 
-
-    </div>
-<script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<div class="w3-hide" id="SolForm">
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <span class="w3-center w3-bar" style="width:50%">
+            {{ form.notmemorized(class="w3-bar-item w3-red w3-round-xxlarge ",style="width:50%")}}
+            {{ form.averagememorized(class="w3-bar-item w3-green w3-round-xxlarge ",style="width:50%")}}
+        </span>
+    </form>
+</div>
 <script>
-    $("#showvid").click(function() {
-        $("#Solution").show();
-        console.log("toto");
-        $("#videotechs").attr({autoplay:true});
-        });
-    $('#suivant').on('click',function() {
-        location.reload();
-    });
+function Solution() {
+    document.getElementById('SolForm').className="w3-show w3-center";
+    document.getElementById('SolVideo').className="w3-show w3-center";
 
-
+}
 
 </script>
+
 {% endblock %}
