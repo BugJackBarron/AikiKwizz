@@ -13,16 +13,16 @@
 </head>
 <body class="w3-theme">
     {% block head %}
-        <div  class="w3-theme-d3 w3-card">
-        <h1 class="w3-container w3-center w3-theme-d3"><a class="w3-button" href="{{ url_for('index')}}">AikiKwizz</a></h1>
+        <div  class="w3-theme-d3 ">
+        <h1 class="w3-container w3-center w3-theme-d3"><a class="w3-block" style="text-decoration : None" href="{{ url_for('index')}}">AikiKwizz</a></h1>
         <div class="w3-bar w3-border">
         {% if current_user.is_authenticated %}
-            <p class="w3-bar-item w3-blue"> Connecté sous le nom {{ current_user.login }}</p>
+            <p class="w3-bar-item w3-theme-d5"> Connecté sous le nom {{ current_user.login }}</p>
             <a class="w3-bar-item w3-button w3-right" href="{{ url_for('myprofile')}}">Mon Profil</a>
             <a class="w3-bar-item w3-button w3-right" href="{{ url_for('logout')}}">Déconnexion</a>
         </span>
         {% else %}
-            <p class="w3-bar-item w3-yellow" onclick="this.style.display='none'"> Non connecté </p>
+            <div class="w3-bar-item w3-theme-l1" onclick="this.style.display='none'"> Non connecté </div>
             <a class="w3-bar-item w3-button w3-right" href="{{ url_for('login')}}">Connexion</a>
             <a class="w3-bar-item w3-button w3-right" href="{{ url_for('register')}}">Inscription</a>
         {% endif %}
@@ -37,10 +37,30 @@
                 onclick="w3_close()">Close &times;</button>
             <a href="{{url_for("make_quizz",level=5)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center">5ème Kyu</a>
             <a href="{{url_for("make_quizz",level=4)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center">4ème Kyu</a>
-            <a href="{{url_for("make_quizz",level=3)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center">3ème Kyu</a>
+{#            <a href="{{url_for("make_quizz",level=3)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center w3-disabled">3ème Kyu</a>#}
+            <p class="w3-bar-item w3-button w3-theme-d5 w3-center w3-disabled">3ème Kyu</p>
             <a href="{{url_for("make_quizz",level=2)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center">2ème Kyu</a>
-            <a href="{{url_for("make_quizz",level=1)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center">1er Kyu</a>
+{#            <a href="{{url_for("make_quizz",level=1)}}" class="w3-bar-item w3-button w3-theme-d5 w3-center w3-disabled">1er Kyu</a>#}
+            <p class="w3-bar-item w3-button w3-theme-d5 w3-center w3-disabled">1er Kyu</p>
+
+            <div class = "w3-margin-top w3-center w3-bar-item">
+                <a  href="http://aikidoclubguingampais.fr/" target="_blank">
+                    <div class="w3-display-container">
+                    <img width="80%" src="{{ url_for('static',filename='Images/AikidoGGP.png') }}" alt="AikidoGGP">
+                        <p>Le site de l'Aikido Club Guingampais</p>
+                    </div>
+                </a>
+            </div>
+            <div class = "w3-margin-top w3-center w3-bar-item">
+                <a  href="https://www.aikido.com.fr/" target="_blank">
+                    <div class="w3-display-container">
+                    <img width="80%" src="{{ url_for('static',filename='Images/Ffaaa-logo-couleurs.jpg') }}" alt="FFAAA">
+                        <p>Le site de la F.F.A.A.A.</p>
+                    </div>
+                </a>
+            </div>
         </div>
+
     {% endblock %}
     {% block corps %}
         <div class = "w3-theme-text w3-theme" style ="margin-left:15%" >
@@ -60,6 +80,8 @@
         {%  endblock %}
         </div>
     {% endblock %}
-    {% block footer %}{% endblock %}
+    {% block footer %}
+        <div class="w3-theme-d3 w3-right-align w3-teal" style="position: fixed; left: 0; bottom: 0; width: 100%">Réalisé en Python avec Flask, Avril 2020, <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a></a>.</div>
+    {% endblock %}
 </body>
 </html>
