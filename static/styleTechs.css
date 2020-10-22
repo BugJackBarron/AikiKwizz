@@ -36,16 +36,17 @@
 #barreTitle > a{
     text-decoration: None;
 }
+#menuButton{display: none;}
 #barreTitle>a:first-child{
     margin-right : auto ;
 }
-#main{
-    display : flex;
-     margin-bottom: 3em;
-}
 
+#corps{
+       margin-left : 10px;
+       margin-right : 10px;
+       text-align : justify;
+}
 #mySidebar{
-    flex :  15;
     display :flex ;
     flex-flow: column;
     justify-content : space-around;
@@ -58,17 +59,11 @@
     align-items: center;
 }
 
-#corps{
-    flex : 85 ;
-
-}
 
 
 #myFooter{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+
+
     display:flex;
     align-items: center;
     justify-content: flex-end;
@@ -82,9 +77,11 @@
     justify-content: flex-end;
 
 }
-#techTitle{
+#techTitle{text-align : center;
 }
-
+#techRestantes{
+    display : None ;
+}
 #SolVideo{
     max-width : 100%;
     display : None ;
@@ -92,9 +89,42 @@
 }
 #SolForm{
     display :None;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-around;
+
+}
+#notMemorized{
+    background-color: red;
+    border-radius:32px;
+    border:none;
+    font-size: x-large;
+}
+#notMemorized:hover{
+    background-color: #0b0b0b;
+    color: red;
+
 }
 
-@media screen and (min-width: 800px) {
+#memorized{
+    background-color: green;
+    border-radius:32px;
+    border:none;
+    font-size: x-large;
+}
+#memorized:hover{
+    background-color: #0b0b0b;
+    color: green;
+
+}
+
+
+@media screen and (min-width: 801px) {
+    #main {
+        display: flex;
+        min-height: 80vh;
+
+    }
     #corps{
         flex : 85 ;
     }
@@ -103,11 +133,30 @@
     }
 }
 @media screen and (max-width: 800px) {
+    #main{
+        display : block;
+    }
+    #menuButton{display: block;}
     #corps{
-        flex : 100 ;
+        position: absolute;
+        min-width: 100%;
+        z-index :0;
+        display : flex;
+
+
+    }
+    #oneTech{
+        display: flex ;
+        min-width: 100%;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        z-index : 0;
     }
     #mySidebar{
         display : None ;
+        max-width : 50%;
+        z-index : 1;
 
     }
 }

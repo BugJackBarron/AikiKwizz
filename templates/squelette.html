@@ -16,7 +16,7 @@
         <div  class="w3-theme-d3 ">
             <h1 class="w3-theme-d3" id="siteTitle"><a  href="{{ url_for('index')}}">AikiKwizz</a></h1>
             <div class="w3-border" id="barreTitle">
-            <a class="w3-button" onclick="showmenu()" ><img width="40px" src="{{ url_for('static',filename='Images/Simpleicons_Places_home-black-shape.svg') }}" alt="Home"/></a>
+            <a class="w3-button" id="menuButton" onclick="showmenu()" ><img width="40px" src="{{ url_for('static',filename='Images/Simpleicons_Places_home-black-shape.svg') }}" alt="Home"/></a>
             {% if current_user.is_authenticated %}
                 <a class="w3-button" href="{{ url_for('myprofile')}}">Mon Profil</a>
                 <a class="w3-button" href="{{ url_for('logout')}}">Déconnexion</a>
@@ -48,17 +48,19 @@
 
     {% endblock %}
     {% block corps %}
-        <div id="corps" class = "w3-theme-text w3-theme" >
+        <div id="corps" class = "w3-theme" >
         {% block error_message %}
-                <div class="w3-theme">
+
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
+                        <div class="w3-theme">
                          {% for message in messages %}
                             <p class="w3-panel w3-red">{{ message }}</p>
                          {% endfor %}
+                        </div>
                     {% endif %}
                 {% endwith %}
-                </div>
+
         {% endblock %}
         {%  block contenu %}
         {%  endblock %}
@@ -72,8 +74,7 @@
 <script>
     function showmenu(){
         var largeur = window.innerWidth;
-        console.log(largeur);
-        if (largeur <800){
+        if (largeur <=800){
             if (document.getElementById("mySidebar").style.display=='') {
                 document.getElementById("mySidebar").style.display = "flex";
             }else{

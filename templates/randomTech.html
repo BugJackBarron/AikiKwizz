@@ -7,10 +7,11 @@
         Your browser does not support the <code>audio</code> element.
 </audio>
 <input id="voirVideo" class="w3-button w3-theme-d4" value="Voir la Vidéo" onclick="Solution()"/>
+<div id="techRestantes"  > Reste à voir {{ session.deck|length-session.memorized }} techniques</div>
 <video id="SolVideo"  controls src="{{url_for("static",filename = tech.level|string+'Kyu/'+tech.video)}}" >  </video>
 <form action="" method="POST" id="SolForm">
     {{ form.hidden_tag() }}
-    <span class="w3-center w3-bar" style="width:50%">
+    <span >
         {{ form.notmemorized(id="notMemorized")}}
         {{ form.averagememorized(id="memorized")}}
      </span>
@@ -20,6 +21,7 @@
 function Solution() {
     document.getElementById('SolForm').style.display="block";
     document.getElementById('SolVideo').style.display="block";
+    document.getElementById('techRestantes').style.display="block";
 }
 
 </script>
