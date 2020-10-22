@@ -1,41 +1,25 @@
 {% extends "squelette.html" %}
 {% block titre %}Kyu {{ tech.level }} :{{ tech.name }} {% endblock %}
 {% block contenu %}
-<h2 class="w3-center">{{ tech.level }} Kyu :{{ tech.name }} </h2>
-<div class=""center>
-<div class="w3-center ">
-    <span class="w3-bar-item w3-red"   style="width:50%;text-shadow:1px 1px 0 #444"> Techniques à voir : {{ session.deck|length-session.memorized }}</span>
-    <span class="w3-bar-item w3-green" style="width:50%;text-shadow:1px 1px 0 #444"> Techniques connues : {{ session.memorized }}</span>
-</div>
-</div>
-<div class="w3-center">
-    <audio controls autoplay="True" preload="auto" src="{{url_for('static',filename = tech.level|string+'Kyu/'+tech.sound)}}"  type="audio/mpeg">
+<div id="oneTech">
+<h2 id="techTitle">{{ tech.name }} </h2>
+<audio controls autoplay="True" preload="auto" src="{{url_for('static',filename = tech.level|string+'Kyu/'+tech.sound)}}"  type="audio/mpeg">
         Your browser does not support the <code>audio</code> element.
-    </audio>
-</div>
-<div
-<div class="w3-center">
-<input class="w3-button w3-theme-d4" value="Voir la Vidéo" onclick="Solution()"/>
-</div>
-
-<div class="w3-hide" id="SolVideo" >
-    <video id="videotechs" controls src="{{url_for("static",filename = tech.level|string+'Kyu/'+tech.video)}}" >  </video>
-</div>
-
-<div class="w3-hide" id="SolForm">
-    <form action="" method="POST">
-        {{ form.hidden_tag() }}
-        <span class="w3-center w3-bar" style="width:50%">
-            {{ form.notmemorized(class="w3-bar-item w3-red w3-round-xxlarge ",style="width:50%")}}
-            {{ form.averagememorized(class="w3-bar-item w3-green w3-round-xxlarge ",style="width:50%")}}
-        </span>
-    </form>
+</audio>
+<input id="voirVideo" class="w3-button w3-theme-d4" value="Voir la Vidéo" onclick="Solution()"/>
+<video id="SolVideo"  controls src="{{url_for("static",filename = tech.level|string+'Kyu/'+tech.video)}}" >  </video>
+<form action="" method="POST" id="SolForm">
+    {{ form.hidden_tag() }}
+    <span class="w3-center w3-bar" style="width:50%">
+        {{ form.notmemorized(id="notMemorized")}}
+        {{ form.averagememorized(id="memorized")}}
+     </span>
+</form>
 </div>
 <script>
 function Solution() {
-    document.getElementById('SolForm').className="w3-show w3-center";
-    document.getElementById('SolVideo').className="w3-show w3-center";
-
+    document.getElementById('SolForm').style.display="block";
+    document.getElementById('SolVideo').style.display="block";
 }
 
 </script>

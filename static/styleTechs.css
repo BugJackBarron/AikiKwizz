@@ -18,3 +18,96 @@
     color : blue!important ;
 
 }
+#siteTitle{
+    display :flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#siteTitle > a{
+    text-decoration: None;
+
+}
+#barreTitle{
+    display : flex;
+    align-items: center;
+    justify-content   : flex-end;
+}
+#barreTitle > a{
+    text-decoration: None;
+}
+#barreTitle>a:first-child{
+    margin-right : auto ;
+}
+#main{
+    display : flex;
+     margin-bottom: 3em;
+}
+
+#mySidebar{
+    flex :  15;
+    display :flex ;
+    flex-flow: column;
+    justify-content : space-around;
+    align-items: center ;
+}
+
+#mySidebar>a {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#corps{
+    flex : 85 ;
+
+}
+
+
+#myFooter{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Concerne l'affichage d'une technique */
+#oneTech{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+#techTitle{
+}
+
+#SolVideo{
+    max-width : 100%;
+    display : None ;
+
+}
+#SolForm{
+    display :None;
+}
+
+@media screen and (min-width: 800px) {
+    #corps{
+        flex : 85 ;
+    }
+    #mySidebar{
+        flex : 15;
+    }
+}
+@media screen and (max-width: 800px) {
+    #corps{
+        flex : 100 ;
+    }
+    #mySidebar{
+        display : None ;
+
+    }
+}
