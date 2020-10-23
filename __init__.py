@@ -150,9 +150,7 @@ def register():
     print(form.errors)
     if form.validate_on_submit() :
         user = User.query.filter_by(login=form.login.data).first()
-        print("toto")
         if user is None:
-            print("toto2")
             user = User(login=form.login.data,
                         password=security.generate_password_hash(form.password.data, method='sha256'),
                         level=int(form.level.data))
@@ -255,4 +253,3 @@ def make_deck(**kwargs) :
 
 if __name__ == '__main__':
     app.run(debug=True)
-

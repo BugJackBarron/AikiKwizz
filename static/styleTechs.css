@@ -18,3 +18,145 @@
     color : blue!important ;
 
 }
+#siteTitle{
+    display :flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#siteTitle > a{
+    text-decoration: None;
+
+}
+#barreTitle{
+    display : flex;
+    align-items: center;
+    justify-content   : flex-end;
+}
+#barreTitle > a{
+    text-decoration: None;
+}
+#menuButton{display: none;}
+#barreTitle>a:first-child{
+    margin-right : auto ;
+}
+
+#corps{
+       margin-left : 10px;
+       margin-right : 10px;
+       text-align : justify;
+}
+#mySidebar{
+    display :flex ;
+    flex-flow: column;
+    justify-content : space-around;
+    align-items: center ;
+}
+
+#mySidebar>a {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+#myFooter{
+
+
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Concerne l'affichage d'une technique */
+#oneTech{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+#techTitle{text-align : center;
+}
+#techRestantes{
+    display : None ;
+}
+#SolVideo{
+    max-width : 100%;
+    display : None ;
+
+}
+#SolForm{
+    display :None;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-around;
+
+}
+#notMemorized{
+    background-color: red;
+    border-radius:32px;
+    border:none;
+    font-size: x-large;
+}
+#notMemorized:hover{
+    background-color: #0b0b0b;
+    color: red;
+
+}
+
+#memorized{
+    background-color: green;
+    border-radius:32px;
+    border:none;
+    font-size: x-large;
+}
+#memorized:hover{
+    background-color: #0b0b0b;
+    color: green;
+
+}
+
+
+@media screen and (min-width: 801px) {
+    #main {
+        display: flex;
+        min-height: 80vh;
+
+    }
+    #corps{
+        flex : 85 ;
+    }
+    #mySidebar{
+        flex : 15;
+    }
+}
+@media screen and (max-width: 800px) {
+    #main{
+        display : block;
+    }
+    #menuButton{display: block;}
+    #corps{
+        position: absolute;
+        min-width: 100%;
+        z-index :0;
+        display : flex;
+
+
+    }
+    #oneTech{
+        display: flex ;
+        min-width: 100%;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        z-index : 0;
+    }
+    #mySidebar{
+        display : None ;
+        max-width : 50%;
+        z-index : 1;
+
+    }
+}
