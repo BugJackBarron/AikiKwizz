@@ -134,26 +134,25 @@
 }
 @media screen and (max-width: 800px) {
     #main{
-        display : block;
+        display: flex;
+        min-height: 80vh;
     }
     #menuButton{display: block;}
     #corps{
-        position: absolute;
+        display: flex;
+        flex-flow: column;
         min-width: 100%;
         z-index :0;
-        display : flex;
-
-
     }
     #oneTech{
         display: flex ;
-        min-width: 100%;
         flex-flow: column;
         align-items: center;
         justify-content: center;
         z-index : 0;
     }
     #mySidebar{
+        position : absolute;
         display : None ;
         max-width : 50%;
         z-index : 1;
