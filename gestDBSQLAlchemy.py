@@ -39,7 +39,7 @@ def addAllTechs(basefolder) :
 
 db.create_all()
 
-user=User(login='admin',password=security.generate_password_hash('1234',method='sha256'),level=0)
+user=User(login='admin',password=security.generate_password_hash('aiki.Nyarlathotep22.kwizz',method='sha256'),level=0)
 db.session.add(user)
 
 
