@@ -6,9 +6,9 @@
 <audio controls autoplay="True" preload="auto" src="{{url_for('static',filename = tech.level|string+'Kyu/'+tech.sound)}}"  type="audio/mpeg">
         Your browser does not support the <code>audio</code> element.
 </audio>
-<input id="voirVideo" class="w3-button w3-theme-d4" value="Voir la Vidéo" onclick="Solution()"/>
+<input id="voirVideo" class="w3-button w3-theme-d4" value="Voir la Vidéo" inputmode="none" onclick="Solution()"/>
 <div id="techRestantes"  > Reste à voir {{ session.deck|length-session.memorized }} techniques</div>
-<video id="SolVideo"  controls src="{{url_for("static",filename = tech.level|string+'Kyu/'+tech.video)}}" >  </video>
+<video id="SolVideo"   inputmode="none" controls src="{{url_for("static",filename = tech.level|string+'Kyu/'+tech.video)}}" >  </video>
 <form action="" method="POST" id="SolForm">
     {{ form.hidden_tag() }}
     <span >
